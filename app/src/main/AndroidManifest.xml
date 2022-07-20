@@ -9,20 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ActivityTest">
+        <activity android:name=".uiActivity"></activity>
         <activity
             android:name=".DialogActivity"
-            android:theme="@android:style/Theme.Dialog"
-             >
+            android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".NormalActivity"
-             >
+        <activity android:name=".NormalActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -37,8 +37,8 @@
         </activity>
         <activity
             android:name=".SecondActivity"
-            android:launchMode="singleInstance"
-            android:label="This is SecondActivity">
+            android:label="This is SecondActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="com.example.activitytest.ACTION_START" />
 
@@ -48,8 +48,8 @@
         </activity>
         <activity
             android:name=".FirstActivity"
-            android:launchMode="singleTask"
-            android:label="This is FirstActivity">
+            android:label="This is FirstActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

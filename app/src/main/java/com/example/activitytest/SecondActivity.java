@@ -2,6 +2,7 @@ package com.example.activitytest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,13 +36,21 @@ public class SecondActivity extends BaseActivity {
             }
         });
         Intent intent = getIntent();
-        String data = intent.getStringExtra("extra_data");
-        Log.d("SecondActivity", data);
+        String data1 = intent.getStringExtra("param1");
+        String data2 = intent.getStringExtra("param2");
+        Log.d("SecondActivity", data1 + data2);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d("SecondActivity", "onDestory");
+    }
+
+    public static void actionStart(Context context, String data1, String data2) {
+        Intent intent = new Intent(context, SecondActivity.class);
+        intent.putExtra("param1", data1);
+        intent.putExtra("param2", data2);
+        context.startActivity(intent);
     }
 }

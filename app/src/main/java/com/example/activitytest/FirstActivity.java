@@ -26,6 +26,7 @@ public class FirstActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK) {
@@ -63,12 +64,12 @@ public class FirstActivity extends BaseActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 // 显式Intent
-                String data = "Hello SecondActivity";
+                // 显式Intent
+//                String data = "Hello SecondActivity";
 //                Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
                 // 启动同一个activity
-                Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
-                intent.putExtra("extra_data", data);
+//                Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
+//                intent.putExtra("extra_data", data);
 //                startActivityForResult(intent, 1);
                 // 隐式Intent
 //                Intent intent = new Intent("com.example.activitytest.ACTION_START");
@@ -77,11 +78,13 @@ public class FirstActivity extends BaseActivity {
 ////                intent.setData(Uri.parse("http://www.baidu.com"));
 //                Intent intent = new Intent(Intent.ACTION_DIAL);
 //                intent.setData(Uri.parse("tel:10086"));
-                startActivity(intent);
+//                startActivity(intent);
+                SecondActivity.actionStart(FirstActivity.this, "data123", "data245");
             }
         });
         Button startNormalActivity = (Button) findViewById(R.id.start_normal_activity);
         Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);
+        Button learnui = (Button) findViewById(R.id.learn_ui);
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +96,13 @@ public class FirstActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FirstActivity.this, DialogActivity.class);
+                startActivity(intent);
+            }
+        });
+        learnui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FirstActivity.this, uiActivity.class);
                 startActivity(intent);
             }
         });

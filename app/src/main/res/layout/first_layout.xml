@@ -25,4 +25,11 @@
         android:text="Start DialogActivity"
         />
 
+    <Button
+        android:id="@+id/learn_ui"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="learn ui"
+        />
+
 </LinearLayout>
