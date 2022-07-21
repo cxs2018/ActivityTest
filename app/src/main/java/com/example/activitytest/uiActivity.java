@@ -26,10 +26,10 @@ public class uiActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui_layout);
-        Button button = (Button)findViewById(R.id.button_4);
-        editText = (EditText)findViewById(R.id.edit_text);
-        imageView = (ImageView)findViewById(R.id.image_view);
-        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        Button button = (Button) findViewById(R.id.button_4);
+        editText = (EditText) findViewById(R.id.edit_text);
+        imageView = (ImageView) findViewById(R.id.image_view);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         button.setOnClickListener(this);
     }
 
