@@ -86,6 +86,7 @@ public class FirstActivity extends BaseActivity {
         Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);
         Button learnui = (Button) findViewById(R.id.learn_ui);
         Button learnLayout = (Button) findViewById(R.id.learn_layout);
+        Button newsPractice = (Button)findViewById(R.id.news_practice);
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +112,13 @@ public class FirstActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FirstActivity.this, LayoutActivity.class);
+                startActivity(intent);
+            }
+        });
+        newsPractice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FirstActivity.this, NewsActivity.class);
                 startActivity(intent);
             }
         });

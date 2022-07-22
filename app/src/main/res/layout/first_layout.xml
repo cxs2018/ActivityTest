@@ -39,4 +39,12 @@
         android:text="learn layout"
         />
 
+    <Button
+        android:id="@+id/news_practice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="news practice"
+        />
+
+
 </LinearLayout>

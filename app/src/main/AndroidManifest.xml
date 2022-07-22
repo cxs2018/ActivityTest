@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActivityTest">
         <activity
+            android:name=".NewsContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".LayoutActivity"
             android:exported="false" />
         <activity android:name=".uiActivity">
