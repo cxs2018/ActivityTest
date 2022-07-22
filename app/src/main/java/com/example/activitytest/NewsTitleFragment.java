@@ -77,7 +77,7 @@ public class NewsTitleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.news_content_frag, container, false);
+        View view = inflater.inflate(R.layout.news_title_frag, container, false);
         RecyclerView newsTitleRecyclerView = (RecyclerView) view.findViewById(R.id.news_title_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         newsTitleRecyclerView.setLayoutManager(layoutManager);
