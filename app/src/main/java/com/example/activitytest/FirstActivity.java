@@ -161,7 +161,14 @@ public class FirstActivity extends BaseActivity {
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
 
-
+        Button forceOffline = (Button)findViewById(R.id.force_offline);
+        forceOffline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent("com.example.activitytest.FORCE_OFFLINE");
+                sendBroadcast(intent);
+            }
+        });
     }
 
 

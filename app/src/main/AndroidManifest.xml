@@ -13,7 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ActivityTest">
-        <activity android:name=".FilePersistenceActivity"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="CXSAndroid"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FilePersistenceActivity" />
 
         <receiver
             android:name=".MyBroadcastReceiver"
@@ -84,15 +94,8 @@
                 <category android:name="com.example.activitytest.MY_CATEGORY" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".FirstActivity"
-            android:label="This is FirstActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".FirstActivity">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
