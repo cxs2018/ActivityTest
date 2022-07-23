@@ -9,4 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Type something here" />
+
+    <Button
+        android:id="@+id/save_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save data"/>
+
+    <Button
+        android:id="@+id/restore_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restore data"/>
+
+    <Button
+        android:id="@+id/create_database"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create database"/>
+
+    <Button
+        android:id="@+id/add_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add data"/>
 </LinearLayout>
