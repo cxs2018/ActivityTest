@@ -4,7 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +18,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class FirstActivity extends BaseActivity {
 
     public static final String TAG = "FirstActivity";
+
+    private IntentFilter intentFilter;
+
+    private NetworkChangeReceiver networkChangeReceiver;
+
+    class NetworkChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isAvailable()) {
+                Toast.makeText(context, "network is available", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "network is unavailable", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,12 +147,23 @@ public class FirstActivity extends BaseActivity {
         newsPractice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FirstActivity.this, NewsActivity.class);
+                Intent intent = new Intent(FirstActivity.this, FilePersistenceActivity.class);
                 startActivity(intent);
+//                Intent intent = new Intent("com.example.activitytest.MY_BROADCAST");
+//                intent.setComponent(new ComponentName("com.example.activitytest", "com.example.activitytest.MyBroadcastReceiver"));
+//                sendBroadcast(intent);
             }
         });
         Log.d(TAG, "onCreate");
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        networkChangeReceiver = new NetworkChangeReceiver();
+        registerReceiver(networkChangeReceiver, intentFilter);
+
+
     }
+
 
     @Override
     protected void onStart() {
@@ -159,6 +199,8 @@ public class FirstActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
+        unregisterReceiver(networkChangeReceiver);
+
     }
 
     @Override
@@ -167,4 +209,6 @@ public class FirstActivity extends BaseActivity {
         String tempData = "Something you just typed";
         outState.putString("data_key", tempData);
     }
+
+
 }
