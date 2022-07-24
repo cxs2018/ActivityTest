@@ -2,12 +2,19 @@ package com.example.activitytest;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,9 +22,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -31,9 +43,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.FileStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +62,7 @@ public class FirstActivity extends BaseActivity {
     class NetworkChangeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isAvailable()) {
                 Toast.makeText(context, "network is available", Toast.LENGTH_SHORT).show();
@@ -126,7 +140,7 @@ public class FirstActivity extends BaseActivity {
         Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);
         Button learnui = (Button) findViewById(R.id.learn_ui);
         Button learnLayout = (Button) findViewById(R.id.learn_layout);
-        Button newsPractice = (Button)findViewById(R.id.news_practice);
+        Button newsPractice = (Button) findViewById(R.id.news_practice);
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +172,7 @@ public class FirstActivity extends BaseActivity {
         newsPractice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FirstActivity.this, FilePersistenceActivity.class);
+                Intent intent = new Intent(FirstActivity.this, CameraAlbumActivity.class);
                 startActivity(intent);
 //                Intent intent = new Intent("com.example.activitytest.MY_BROADCAST");
 //                intent.setComponent(new ComponentName("com.example.activitytest", "com.example.activitytest.MyBroadcastReceiver"));
@@ -172,7 +186,7 @@ public class FirstActivity extends BaseActivity {
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
 
-        Button forceOffline = (Button)findViewById(R.id.force_offline);
+        Button forceOffline = (Button) findViewById(R.id.force_offline);
         forceOffline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,7 +195,7 @@ public class FirstActivity extends BaseActivity {
             }
         });
 
-        Button makeCall = (Button)findViewById(R.id.make_call);
+        Button makeCall = (Button) findViewById(R.id.make_call);
         makeCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,14 +207,44 @@ public class FirstActivity extends BaseActivity {
             }
         });
 
-        ListView contactsView = (ListView)findViewById(R.id.contacts_view);
+        ListView contactsView = (ListView) findViewById(R.id.contacts_view);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contactsList);
         contactsView.setAdapter(adapter);
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 2);
         } else {
             readContacts();
         }
+
+        Button sendNotice = (Button) findViewById(R.id.send_notice);
+        sendNotice.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FirstActivity.this, NotificationActivity.class);
+                PendingIntent pi = PendingIntent.getActivity(FirstActivity.this, 0, intent, 0);
+                NotificationChannel notificationChannel = null;
+                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    AudioAttributes audioAttributes = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
+                    notificationChannel = new NotificationChannel("001", "channel_name", NotificationManager.IMPORTANCE_HIGH);
+                    notificationChannel.setSound(Uri.parse("/system/media/audio/alarms/alarm.ogg"), audioAttributes);
+                    notificationChannel.setShowBadge(true);
+                    notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                    notificationChannel.enableVibration(true);
+                    notificationChannel.setVibrationPattern(new long[]{100, 200, 300});
+                    notificationChannel.enableLights(true);
+                    notificationChannel.setLightColor(Color.GREEN);
+                    manager.createNotificationChannel(notificationChannel);
+                }
+                // 方法1取消状态栏通知
+//                Notification notification = new NotificationCompat.Builder(FirstActivity.this, "001").setContentTitle("This is content title").setContentIntent(pi).setAutoCancel(true)
+                Notification notification = new NotificationCompat.Builder(FirstActivity.this, "001").setContentTitle("This is content title").setContentIntent(pi)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText("ghfdksajgfkadjsgfjkasdgfklja haslkflasddhf hlkfhlaskdhf;lashv lhflskahfl;sakhdv alkshflk;ashfd;sa n;lasskfh;aslfh;as"))
+                        .setContentText("This is content text").setWhen(System.currentTimeMillis()).setSmallIcon(R.mipmap.ic_launcher).setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher)).build();
+                manager.notify(1, notification);
+            }
+        });
     }
 
     private void readContacts() {
@@ -208,7 +252,7 @@ public class FirstActivity extends BaseActivity {
         try {
             cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
             if (cursor != null) {
-                while(cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
                     @SuppressLint("Range") String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                     @SuppressLint("Range") String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     contactsList.add(displayName + "\n" + number);
@@ -228,7 +272,7 @@ public class FirstActivity extends BaseActivity {
 
     List<String> contactsList = new ArrayList<>();
 
-    private void call () {
+    private void call() {
         try {
             Intent intent = new Intent(Intent.ACTION_CALL);
             intent.setData(Uri.parse("tel:10086"));
