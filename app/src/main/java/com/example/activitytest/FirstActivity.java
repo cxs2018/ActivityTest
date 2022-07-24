@@ -36,6 +36,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -172,7 +173,7 @@ public class FirstActivity extends BaseActivity {
         newsPractice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FirstActivity.this, CameraAlbumActivity.class);
+                Intent intent = new Intent(FirstActivity.this, WebviewActivity.class);
                 startActivity(intent);
 //                Intent intent = new Intent("com.example.activitytest.MY_BROADCAST");
 //                intent.setComponent(new ComponentName("com.example.activitytest", "com.example.activitytest.MyBroadcastReceiver"));
