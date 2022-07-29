@@ -1,6 +1,7 @@
 package com.example.activitytest.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.activitytest.db.City;
 import com.example.activitytest.db.County;
@@ -85,7 +86,8 @@ public class Utility {
         try {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
-            String weatherContent = jsonArray.getJSONArray(0).toString();
+            Log.d("11111", jsonArray.toString());
+            String weatherContent = jsonArray.getJSONObject(0).toString();
             return new Gson().fromJson(weatherContent, Weather.class);
         } catch (JSONException e) {
             e.printStackTrace();

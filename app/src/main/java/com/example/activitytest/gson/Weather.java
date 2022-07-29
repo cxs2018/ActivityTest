@@ -9,7 +9,7 @@ public class Weather {
 
     public Basic basic;
 
-    public AQI api;
+    public AQI aqi;
 
     public Now now;
 
